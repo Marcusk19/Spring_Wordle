@@ -1,7 +1,7 @@
 # Spring Wordle #
 
 ### Summary ###
-This project is a barebones clone of the game Wordle built with Spring Boot. The main purpose of this project was for me to get experience with how Spring Boot works along with how a web application is built.
+This project is a barebones clone of the game Wordle built with Spring Boot. The main purpose of this project was for me to get experience with how Spring Boot works along with how a web application is built. Main branch grabs wordlist from a github repository. To see code for grabbing words from a mysql database check out the *mysql* branch.
 
 ### Installing/Running ###
 Clone this repo:<br>
