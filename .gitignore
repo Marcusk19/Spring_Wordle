@@ -36,3 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 node_modules
+notes.txt
+src/main/resources/config.properties
