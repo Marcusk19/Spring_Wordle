@@ -11,5 +11,5 @@ Then you can build and run the project using gradle:<br>
 `gradle build`<br>
 `java -jar build/libs/spring_wordle-1.1.jar`<br>
 Navigate to localhost and you should see the application.<br>
-<img src="images/readme/wordle_homepage.png" />
+<img src="images/readme/wordle_homepage.png" align="center" />
 
