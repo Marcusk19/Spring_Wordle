@@ -1,50 +1,70 @@
 package com.wordle.marcus.spring_wordle;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.*;
+
 
 
 public class Wordle {
     List <String> words = new ArrayList<String>();
     private String solution = "marky";
     // private String guess = "";
-    URL url;
-    String username = "user";
-    String password = "passwd";
+    String url = null;
+    String username = null;
+    String password = null;
     public Wordle() {
- 
-        try { 
-            url = new URL("https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt");
-            URLConnection uc = url.openConnection();
-            uc.setRequestProperty("X-Requested-With", "Curl");
-            String userpass = username + ":" + password;
-            String basicAuth = "Basic" + new String(Base64.getEncoder().encode(userpass.getBytes()));
-            uc.setRequestProperty("Authorization", basicAuth);
+        // read in parameters from resources/config.properties
+        try {
+            Properties prop = new Properties();
+            InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-            String line = null;
-            while ((line = reader.readLine()) != null) 
-                words.add(line);
-            
-            reader.close();
-        } catch(Exception e) {
+            if(input != null) {
+                prop.load(input);
+            } else {
+                System.out.println("Properties file not found");
+            }
+
+            url = prop.getProperty("url");
+            username = prop.getProperty("username");
+            password = prop.getProperty("password");
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+
+        
+        // connection to mysql database
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection(url, username, password);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from five_letters");
+            // add all results from result set to words array
+            while(rs.next()) words.add(rs.getString(1)); 
+            con.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        
     }
 
     private void chooseSolution() {
+        // select a random word from words to use as the solution
+        if(words.size() <= 0) return; // don't do anything if we can't fetch from the db
         Random rnd = new Random();
         int index = rnd.nextInt(words.size());
         this.solution = words.get(index);
     }
 
     public List<String> getWords() {
+        // handler function to return words array
         return words;
     }
 
     public String getSolution(){
+        // handler funciton to return solution
         chooseSolution();
         return this.solution;
     }

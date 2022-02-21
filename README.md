@@ -7,6 +7,7 @@ This project is a barebones clone of the game Wordle built with Spring Boot. The
 Clone this repo:<br>
 `git clone https://github.com/Marcusk19/springwordle.git`<br>
 `cd springwordle`<br>
+Make sure you edit *src/main/resources/example_config.properties* file to the correct values <br>
 Then you can build and run the project using gradle:<br>
 `gradle build`<br>
 `java -jar build/libs/spring_wordle-1.1.jar`<br>
