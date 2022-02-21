@@ -36,10 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 node_modules
-<<<<<<< HEAD
 src/main/resources/config.properties
 notes.txt
-=======
-notes.txt
-src/main/resources/config.properties
->>>>>>> mysql
