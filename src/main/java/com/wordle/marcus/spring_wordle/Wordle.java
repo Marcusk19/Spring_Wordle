@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.sql.*;
 
 
-
 public class Wordle {
     List <String> words = new ArrayList<String>();
     private String solution = "marky";
