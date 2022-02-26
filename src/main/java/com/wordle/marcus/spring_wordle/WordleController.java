@@ -15,7 +15,7 @@ public class WordleController {
         return wordle.getSolution();
     }
 
-    @GetMapping("/valdiate")
+    @GetMapping("/validate")
     public String[] validate(@RequestParam(value="guess", defaultValue="     ")String guess) {
         return wordle.validateGuess(guess);
     }

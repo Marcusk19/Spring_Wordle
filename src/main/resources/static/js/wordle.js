@@ -16,7 +16,7 @@ window.onload = function(){
 
 fetch(apiUrl + '/choose_solution')
 .then(response => {
-    return response.json();
+    return response.text();
 })
 .then((text) => {
     console.log(text);
@@ -58,14 +58,10 @@ function initialize() {
         }
         else if(e.code == "Enter") {
             check();
-            row += 1;
+            if(row < height) row += 1;
             col = 0;
         }
 
-        if(!gameOver && row == height) {
-            gameOver = true;
-            document.getElementById("answer").innerText = word;
-        }
     })
 }
 
@@ -112,14 +108,14 @@ function check(){
 
         for(let i = 0; i < width; i++) {
             console.log(validate_arr[i]);
-            let currTile = document.getElementById((row-1).toString + '-' + i.toString());
+            let currTile = document.getElementById((row-1).toString() + '-' + i.toString());
+            console.log(row.toString() + '-' + i.toString());
             if(validate_arr[0] == "invalid") {
                 currTile.innerText = "";
             } else {
                 currTile.classList.add(validate_arr[i]);
             }
-
-            if(validate_arr[0] == "invalid") row -= 1;
         }
+        if(validate_arr[0] == "invalid") row -= 1;
     })
 }

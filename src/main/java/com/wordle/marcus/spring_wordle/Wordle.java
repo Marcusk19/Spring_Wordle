@@ -1,8 +1,11 @@
 package com.wordle.marcus.spring_wordle;
 import java.util.*;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.sql.*;
+import java.net.URL;
+import java.net.URLConnection;
 
 
 public class Wordle {
@@ -11,7 +14,7 @@ public class Wordle {
     private int numGuesses = 0;
     private boolean correctGuess = false;
     // private String guess = "";
-    String url = null;
+    URL url = null;
     String username = null;
     String password = null;
 
@@ -45,6 +48,7 @@ public class Wordle {
         Random rnd = new Random();
         int index = rnd.nextInt(words.size());
         this.solution = words.get(index);
+        numGuesses = 0;
         return "Solution chosen";
     }
 
@@ -58,7 +62,7 @@ public class Wordle {
         // check for valid input
         if(!(words.contains(guess)) || guess.length() < solution.length()) {
             validation[0] = "invalid";
-            if(numGuesses < 0) numGuesses--;
+            if(numGuesses > 0) numGuesses--;
             return validation;
         }
 
@@ -94,7 +98,7 @@ public class Wordle {
 
     public String getSolution(){
         // handler funciton to return solution
-        return this.solution;
+        return this.solution.toUpperCase();
     }
 
     public String checkGameOver() {
