@@ -18,35 +18,21 @@ public class Wordle {
     // constructor
     public Wordle() {
         // read in parameters from resources/config.properties
-        try {
-            Properties prop = new Properties();
-            InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
+        try { 
+            url = new URL("https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt");
+            URLConnection uc = url.openConnection();
+            uc.setRequestProperty("X-Requested-With", "Curl");
+            String userpass = username + ":" + password;
+            String basicAuth = "Basic" + new String(Base64.getEncoder().encode(userpass.getBytes()));
+            uc.setRequestProperty("Authorization", basicAuth);
 
-            if(input != null) {
-                prop.load(input);
-            } else {
-                System.out.println("Properties file not found");
-            }
-
-            url = prop.getProperty("url");
-            username = prop.getProperty("username");
-            password = prop.getProperty("password");
-        } catch(IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-
-        
-        // connection to mysql database
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection(url, username, password);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from five_letters");
-            // add all results from result set to words array
-            while(rs.next()) words.add(rs.getString(1)); 
-            con.close();
-        } catch (Exception e) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+            String line = null;
+            while ((line = reader.readLine()) != null) 
+                words.add(line);
+            
+            reader.close();
+        } catch(Exception e) {
             e.printStackTrace();
         }
 
